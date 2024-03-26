@@ -1,5 +1,4 @@
 import cv2
-import time
 
 def faceBox(faceNet, frame):
     frameHeight = frame.shape[0]
@@ -55,7 +54,6 @@ genderList = ["Male", "Female"]
 
 video = cv2.VideoCapture(0)
 padding = 20
-last_print_time = time.time()
 
 while True:
     ret, frame = video.read()
@@ -95,11 +93,6 @@ while True:
 
     cv2.imshow("Identiface", frame)
     k = cv2.waitKey(1)
-
-    current_time = time.time()
-    if current_time - last_print_time >= 0.5:
-        print("Gender: {}, Age: {}".format(gender, age))
-        last_print_time = current_time
 
     if k == ord("q"):
         break
