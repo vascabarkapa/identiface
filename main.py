@@ -103,9 +103,9 @@ while True:
     print(json_data)
 
     cv2.imshow("Identiface", frame)
-    k = cv2.waitKey(1)
-
-    if k == ord("q"):
+    key = cv2.waitKey(1)
+    
+    if key == ord('q') or cv2.getWindowProperty("Identiface", cv2.WND_PROP_VISIBLE) < 1:
         break
 
 video.release()
