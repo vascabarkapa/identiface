@@ -1,4 +1,5 @@
 import cv2
+import json
 
 def faceBox(faceNet, frame):
     frameHeight = frame.shape[0]
@@ -59,6 +60,8 @@ while True:
     ret, frame = video.read()
     frame, bboxs = faceBox(faceNet, frame)
 
+    data = []
+
     for bbox in bboxs:
         face = frame[
             max(0, bbox[1] - padding) : min(bbox[3] + padding, frame.shape[0] - 1),
@@ -76,6 +79,8 @@ while True:
         agePrediction = ageNet.forward()
         age = ageList[agePrediction[0].argmax()]
 
+        data.append({"gender": gender, "age": age})
+
         label = "{},{}".format(gender, age)
         cv2.rectangle(
             frame, (bbox[0], bbox[1] - 30), (bbox[2], bbox[1]), (0, 255, 0), -1
@@ -90,6 +95,9 @@ while True:
             2,
             cv2.LINE_AA,
         )
+
+    json_data = json.dumps(data, indent=4)
+    print(json_data)
 
     cv2.imshow("Identiface", frame)
     k = cv2.waitKey(1)
