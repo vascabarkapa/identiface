@@ -1,5 +1,6 @@
 import cv2
 import json
+import time
 
 def faceBox(faceNet, frame):
     frameHeight = frame.shape[0]
@@ -79,7 +80,9 @@ while True:
         agePrediction = ageNet.forward()
         age = ageList[agePrediction[0].argmax()]
 
-        data.append({"gender": gender, "age": age})
+        timestamp = int(time.time())
+
+        data.append({"gender": gender, "age": age, "timestamp": timestamp})
 
         label = "{},{}".format(gender, age)
         cv2.rectangle(
