@@ -8,7 +8,7 @@ def faceBox(faceNet, frame):
     faceNet.setInput(blob)
     detection = faceNet.forward()
 
-    bbox = []
+    bboxs = []
     
     for i in range(detection.shape[2]):
         confidence = detection[0,0,i,2]
@@ -19,11 +19,11 @@ def faceBox(faceNet, frame):
            x2 = int(detection[0,0,i,5] * frameWidth)
            y2 = int(detection[0,0,i,6] * frameHeight)
 
-           bbox.append([x1,y1,x2,y2])
+           bboxs.append([x1,y1,x2,y2])
 
            cv2.rectangle(frame, (x1, y1), (x2, y2), (0,255,0), 1)
 
-    return detection
+    return frame, bboxs
 
 faceProto = "face_detector/opencv_face_detector.pbtxt"
 faceModel = "face_detector/opencv_face_detector_uint8.pb"
